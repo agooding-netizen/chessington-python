@@ -41,12 +41,46 @@ class Pawn(Piece):
             if current_square.row != 7:
                 if board.is_square_empty(Square(current_square.row + 1, current_square.col)):
                     next_square = Square.at(current_square.row + 1, current_square.col)
+                    next_square_diagonal_left = None
+                    next_square_diagonal_right = None
+                    piece = board.get_piece(Square(current_square.row + 1, current_square.col - 1))
+                    if piece:
+                        if piece.player == Player.BLACK:
+                            next_square_diagonal_left = Square.at(current_square.row + 1, current_square.col - 1)
+                    piece = board.get_piece(Square(current_square.row + 1, current_square.col + 1))
+                    if piece:
+                        if piece.player == Player.BLACK:
+                            next_square_diagonal_right = Square.at(current_square.row + 1, current_square.col + 1)
                     if current_square.row == 1:
                         if board.is_square_empty(Square(current_square.row + 2, current_square.col)):
                             next_square_two_step = Square.at(current_square.row + 2, current_square.col)
-                            return [next_square, next_square_two_step]
+                            if next_square_diagonal_left and next_square_diagonal_right:
+                                return [next_square, next_square_two_step, next_square_diagonal_left,
+                                        next_square_diagonal_right]
+                            elif next_square_diagonal_left:
+                                return [next_square, next_square_two_step, next_square_diagonal_left]
+                            elif next_square_diagonal_right:
+                                return [next_square, next_square_two_step, next_square_diagonal_right]
+                            else:
+                                return [next_square, next_square_two_step]
+                        if next_square_diagonal_left and next_square_diagonal_right:
+                            return [next_square,  next_square_diagonal_left,
+                                    next_square_diagonal_right]
+                        elif next_square_diagonal_left:
+                            return [next_square,  next_square_diagonal_left]
+                        elif next_square_diagonal_right:
+                            return [next_square, next_square_diagonal_right]
+                        else:
+                            return [next_square]
+                    if next_square_diagonal_left and next_square_diagonal_right:
+                        return [next_square, next_square_diagonal_left,
+                                next_square_diagonal_right]
+                    elif next_square_diagonal_left:
+                        return [next_square, next_square_diagonal_left]
+                    elif next_square_diagonal_right:
+                        return [next_square, next_square_diagonal_right]
+                    else:
                         return [next_square]
-                    return [next_square]
                 return []
             return[]
 
@@ -54,12 +88,46 @@ class Pawn(Piece):
             if current_square.row != 0:
                 if board.is_square_empty(Square(current_square.row - 1, current_square.col)):
                     next_square = Square.at(current_square.row - 1, current_square.col)
+                    next_square_diagonal_left = None
+                    next_square_diagonal_right = None
+                    piece = board.get_piece(Square(current_square.row - 1, current_square.col - 1))
+                    if piece:
+                        if piece.player == Player.WHITE:
+                            next_square_diagonal_left = Square.at(current_square.row - 1, current_square.col - 1)
+                    piece = board.get_piece(Square(current_square.row - 1, current_square.col + 1))
+                    if piece:
+                        if piece.player == Player.WHITE:
+                            next_square_diagonal_right = Square.at(current_square.row - 1, current_square.col + 1)
                     if current_square.row == 6:
                         if board.is_square_empty(Square(current_square.row - 2, current_square.col)):
                             next_square_two_step = Square.at(current_square.row - 2, current_square.col)
-                            return [next_square, next_square_two_step]
-                        return[next_square]
-                    return [next_square]
+                            if next_square_diagonal_left and next_square_diagonal_right:
+                                return [next_square, next_square_two_step, next_square_diagonal_left,
+                                        next_square_diagonal_right]
+                            elif next_square_diagonal_left:
+                                return [next_square, next_square_two_step, next_square_diagonal_left]
+                            elif next_square_diagonal_right:
+                                return [next_square, next_square_two_step, next_square_diagonal_right]
+                            else:
+                                return [next_square, next_square_two_step]
+                        if next_square_diagonal_left and next_square_diagonal_right:
+                            return [next_square, next_square_diagonal_left,
+                                    next_square_diagonal_right]
+                        elif next_square_diagonal_left:
+                            return [next_square, next_square_diagonal_left]
+                        elif next_square_diagonal_right:
+                            return [next_square, next_square_diagonal_right]
+                        else:
+                            return [next_square]
+                    if next_square_diagonal_left and next_square_diagonal_right:
+                        return [next_square, next_square_diagonal_left,
+                                next_square_diagonal_right]
+                    elif next_square_diagonal_left:
+                        return [next_square, next_square_diagonal_left]
+                    elif next_square_diagonal_right:
+                        return [next_square, next_square_diagonal_right]
+                    else:
+                        return [next_square]
                 return []
             return[]
 
@@ -88,7 +156,6 @@ class Rook(Piece):
     """
 
     def get_available_moves(self, board):
-        find_piece
         return []
 
 
