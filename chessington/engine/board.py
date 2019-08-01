@@ -80,3 +80,9 @@ class Board:
             self.set_piece(to_square, moving_piece)
             self.set_piece(from_square, None)
             self.current_player = self.current_player.opponent()
+
+    def is_square_empty(self, square):
+        if self.get_piece(square) is None:
+            return True
+        if self.get_piece(square) is not None:
+            return False

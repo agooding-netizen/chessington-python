@@ -38,18 +38,26 @@ class Pawn(Piece):
     def get_available_moves(self, board):
         current_square = board.find_piece(self)
         if self.player == Player.WHITE:
-            next_square = Square.at(current_square.row + 1, current_square.col)
-            if current_square.row == 1:
-                next_square_two_step = Square.at(current_square.row + 2, current_square.col)
-                return [next_square, next_square_two_step]
-            return [next_square]
+            if board.is_square_empty(Square(current_square.row + 1, current_square.col)):
+                next_square = Square.at(current_square.row + 1, current_square.col)
+                if current_square.row == 1:
+                    if board.is_square_empty(Square(current_square.row + 2, current_square.col)):
+                        next_square_two_step = Square.at(current_square.row + 2, current_square.col)
+                        return [next_square, next_square_two_step]
+                    return [next_square]
+                return [next_square]
+            return []
 
         if self.player == Player.BLACK:
-            next_square = Square.at(current_square.row - 1, current_square.col)
-            if current_square.row == 6:
-                next_square_two_step = Square.at(current_square.row - 2, current_square.col)
-                return [next_square, next_square_two_step]
-            return [next_square]
+            if board.is_square_empty(Square(current_square.row - 1, current_square.col)):
+                next_square = Square.at(current_square.row - 1, current_square.col)
+                if current_square.row == 6:
+                    if board.is_square_empty(Square(current_square.row - 2, current_square.col)):
+                        next_square_two_step = Square.at(current_square.row - 2, current_square.col)
+                        return [next_square, next_square_two_step]
+                    return[next_square]
+                return [next_square]
+            return []
 
 
 class Knight(Piece):
