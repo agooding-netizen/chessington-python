@@ -86,3 +86,10 @@ class Board:
             return True
         if self.get_piece(square) is not None:
             return False
+
+    @staticmethod
+    def does_square_exist(square):
+        if 0 <= square.row <= 7 and 0 <= square.col <= 7:
+            return True
+        else:
+            return False
