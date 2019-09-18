@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 
 from chessington.engine.data import Player, Square
 
+
 class Piece(ABC):
     """
     An abstract base class from which all pieces inherit.
@@ -35,7 +36,7 @@ class Pawn(Piece):
     """
 
     def get_available_moves(self, board):
-        return []
+        return [Square.at(2, 4), Square.at(5, 4)]
 
 
 class Knight(Piece):
@@ -62,6 +63,7 @@ class Rook(Piece):
     """
 
     def get_available_moves(self, board):
+        find_piece
         return []
 
 
