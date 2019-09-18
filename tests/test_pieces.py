@@ -491,7 +491,7 @@ class TestRooks:
 class TestBishops:
 
     @staticmethod
-    def bishop_cannot_move_off_board():
+    def test_bishop_cannot_move_off_board():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -509,7 +509,7 @@ class TestBishops:
         assert len(moves) == 0
 
     @staticmethod
-    def bishop_cannot_move_through_pieces_up_and_right():
+    def test_bishop_cannot_move_through_pieces_up_and_right():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -526,7 +526,7 @@ class TestBishops:
         assert Square.at(6, 6) not in moves
 
     @staticmethod
-    def bishop_cannot_move_through_pieces_up_and_left():
+    def test_bishop_cannot_move_through_pieces_up_and_left():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -543,7 +543,7 @@ class TestBishops:
         assert Square.at(6, 2) not in moves
 
     @staticmethod
-    def bishop_cannot_move_through_pieces_down_and_right():
+    def test_bishop_cannot_move_through_pieces_down_and_right():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -560,7 +560,7 @@ class TestBishops:
         assert Square.at(2, 6) not in moves
 
     @staticmethod
-    def bishop_cannot_move_through_pieces_down_and_left():
+    def test_bishop_cannot_move_through_pieces_down_and_left():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -577,7 +577,7 @@ class TestBishops:
         assert Square.at(2, 2) not in moves
 
     @staticmethod
-    def bishop_can_move_up_and_right():
+    def test_bishop_can_move_up_and_right():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -593,7 +593,7 @@ class TestBishops:
         assert Square.at(7, 7) in moves
 
     @staticmethod
-    def bishop_can_move_up_and_left():
+    def test_bishop_can_move_up_and_left():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -609,7 +609,7 @@ class TestBishops:
         assert Square.at(7, 1) in moves
 
     @staticmethod
-    def bishop_can_move_down_and_right():
+    def test_bishop_can_move_down_and_right():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -625,7 +625,7 @@ class TestBishops:
         assert Square.at(1, 7) in moves
 
     @staticmethod
-    def bishop_can_move_down_and_left():
+    def test_bishop_can_move_down_and_left():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
@@ -642,28 +642,73 @@ class TestBishops:
         assert Square.at(0, 0) in moves
 
     @staticmethod
-    def bishop_can_capture_up_and_right():
+    def test_bishop_can_capture_up_and_right():
         # Arrange
         board = Board.empty()
         bishop = Bishop(Player.WHITE)
         bishop_square = Square.at(4, 4)
         board.set_piece(bishop_square, bishop)
 
-        friendly =
+        enemy = Pawn(Player.BLACK)
+        enemy_square = Square.at(6, 6)
+        board.set_piece(enemy_square, enemy)
 
         # Act
         moves = bishop.get_available_moves(board)
 
         # Assert
-        assert Square.at(5, 5) in moves
         assert Square.at(6, 6) in moves
-        assert Square.at(7, 7) in moves
 
     @staticmethod
-    def bishop_can_capture_up_and_left():
+    def test_bishop_can_capture_up_and_left():
+        # Arrange
+        board = Board.empty()
+        bishop = Bishop(Player.WHITE)
+        bishop_square = Square.at(4, 4)
+        board.set_piece(bishop_square, bishop)
+
+        enemy = Pawn(Player.BLACK)
+        enemy_square = Square.at(6, 2)
+        board.set_piece(enemy_square, enemy)
+
+        # Act
+        moves = bishop.get_available_moves(board)
+
+        # Assert
+        assert Square.at(6, 2) in moves
 
     @staticmethod
-    def bishop_can_capture_down_and_right():
+    def test_bishop_can_capture_down_and_right():
+        # Arrange
+        board = Board.empty()
+        bishop = Bishop(Player.WHITE)
+        bishop_square = Square.at(4, 4)
+        board.set_piece(bishop_square, bishop)
+
+        enemy = Pawn(Player.BLACK)
+        enemy_square = Square.at(2, 6)
+        board.set_piece(enemy_square, enemy)
+
+        # Act
+        moves = bishop.get_available_moves(board)
+
+        # Assert
+        assert Square.at(2, 6) in moves
 
     @staticmethod
-    def bishop_can_capture_down_and_left():
+    def test_bishop_can_capture_down_and_left():
+        # Arrange
+        board = Board.empty()
+        bishop = Bishop(Player.WHITE)
+        bishop_square = Square.at(4, 4)
+        board.set_piece(bishop_square, bishop)
+
+        enemy = Pawn(Player.BLACK)
+        enemy_square = Square.at(2, 2)
+        board.set_piece(enemy_square, enemy)
+
+        # Act
+        moves = bishop.get_available_moves(board)
+
+        # Assert
+        assert Square.at(2, 2) in moves
