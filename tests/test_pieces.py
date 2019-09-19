@@ -1097,7 +1097,6 @@ class TestKings:
         assert Square.at(4, 3) in moves
         assert Square.at(3, 4) in moves
 
-
     @staticmethod
     def test_kings_cannot_move_to_friendly_square():
         # Arrange
@@ -1106,7 +1105,7 @@ class TestKings:
         king_square = Square.at(4, 4)
         board.set_piece(king_square, king)
 
-        friendly_1 = Pawn(Player.BLACK)
+        friendly_1 = Pawn(Player.WHITE)
         friendly_1_square = Square.at(4, 3)
         board.set_piece(friendly_1_square, friendly_1)
 
