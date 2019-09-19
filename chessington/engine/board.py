@@ -78,7 +78,10 @@ class Board:
         """
         moving_piece = self.get_piece(from_square)
         if moving_piece is not None and moving_piece.player == self.current_player:
-            self.set_piece(to_square, moving_piece)
+            if to_square.row == 0 or to_square.row == 7:
+                Pawn.pawn_promotion(moving_piece, self, to_square)
+            else:
+                self.set_piece(to_square, moving_piece)
             self.set_piece(from_square, None)
             self.current_player = self.current_player.opponent()
 
@@ -95,3 +98,30 @@ class Board:
         else:
             return False
 
+    def check_moves(self, board, current_square, current_piece, valid_moves, row_direction, col_direction):
+        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
+        if self.does_square_exist(next_square):
+            if self.is_square_empty(next_square):
+                valid_moves.append(next_square)
+            elif not self.is_square_empty(next_square):
+                piece = self.get_piece(next_square)
+                valid_moves = self.check_for_capture(current_piece, piece, valid_moves, next_square)
+        return valid_moves
+
+    def check_moves_multi(self, board, current_square, current_piece, valid_moves, row_direction, col_direction):
+        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
+        while self.does_square_exist(next_square):
+            if self.is_square_empty(next_square):
+                valid_moves.append(next_square)
+            elif not self.is_square_empty(next_square):
+                piece = self.get_piece(next_square)
+                valid_moves = self.check_for_capture(current_piece, piece, valid_moves, next_square)
+                break
+            next_square = Square.at(next_square.row + row_direction, next_square.col + col_direction)
+        return valid_moves
+
+    @staticmethod
+    def check_for_capture(current_piece, check_piece, valid_moves, square):
+        if check_piece.player != current_piece.player:
+            valid_moves.append(square)
+        return valid_moves

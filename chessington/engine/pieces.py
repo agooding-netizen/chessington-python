@@ -36,7 +36,6 @@ class Pawn(Piece):
     """
 
     def get_available_moves(self, board):
-
         current_square = board.find_piece(self)
 
         row_direction = 0
@@ -60,8 +59,8 @@ class Pawn(Piece):
 
         if len(move_vectors) == 2:
             for vector in range(0, len(move_vectors)):
-                valid_moves = self.capture(board, current_square, valid_moves, move_vectors[vector][0],
-                                           move_vectors[vector][1])
+                valid_moves = self.prawn_capture(board, current_square, valid_moves, move_vectors[vector][0],
+                                                 move_vectors[vector][1])
 
         return valid_moves
 
@@ -81,13 +80,17 @@ class Pawn(Piece):
             valid_moves.append(next_square)
         return valid_moves
 
-    def capture(self, board, current_square, valid_moves, row_direction, col_direction):
+    def prawn_capture(self, board, current_square, valid_moves, row_direction, col_direction):
         next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
         if board.does_square_exist(next_square) and not board.is_square_empty(next_square):
             piece = board.get_piece(next_square)
             if piece.player != self.player:
                 valid_moves.append(next_square)
         return valid_moves
+
+    def pawn_promotion(self, board, square):
+        queen = Queen(self.player)
+        board.set_piece(square, queen)
 
 
 class Knight(Piece):
@@ -98,27 +101,16 @@ class Knight(Piece):
     def get_available_moves(self, board):
 
         current_square = board.find_piece(self)
+        current_piece = board.get_piece(current_square)
 
         move_vectors = [[2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2], [1, -2], [2, -1]]
 
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = self.get_moves(board, current_square, valid_moves, move_vectors[vector][0],
-                                         move_vectors[vector][1])
+            valid_moves = board.check_moves(board, current_square, current_piece, valid_moves,
+                                            move_vectors[vector][0], move_vectors[vector][1])
 
-        return valid_moves
-
-    def get_moves(self, board, current_square, valid_moves, row_direction, col_direction):
-
-        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
-        if board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
         return valid_moves
 
 
@@ -130,28 +122,16 @@ class Bishop(Piece):
     def get_available_moves(self, board):
 
         current_square = board.find_piece(self)
+        current_piece = board.get_piece(current_square)
 
         move_vectors = [[1, 1], [-1, 1], [-1, -1], [1, -1]]
 
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = self.get_moves(board, current_square, valid_moves, move_vectors[vector][0],
-                                         move_vectors[vector][1])
+            valid_moves = board.check_moves_multi(board, current_square, current_piece, valid_moves,
+                                                  move_vectors[vector][0], move_vectors[vector][1])
 
-        return valid_moves
-
-    def get_moves(self, board, current_square, valid_moves, row_direction, col_direction):
-        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
-        while board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
-                break
-            next_square = Square.at(next_square.row + row_direction, next_square.col + col_direction)
         return valid_moves
 
 
@@ -163,28 +143,16 @@ class Rook(Piece):
     def get_available_moves(self, board):
 
         current_square = board.find_piece(self)
+        current_piece = board.get_piece(current_square)
 
         move_vectors = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = self.get_moves(board, current_square, valid_moves, move_vectors[vector][0],
-                                         move_vectors[vector][1])
+            valid_moves = board.check_moves_multi(board, current_square, current_piece, valid_moves,
+                                                  move_vectors[vector][0], move_vectors[vector][1])
 
-        return valid_moves
-
-    def get_moves(self, board, current_square, valid_moves, row_direction, col_direction):
-        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
-        while board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
-                break
-            next_square = Square.at(next_square.row + row_direction, next_square.col + col_direction)
         return valid_moves
 
 
@@ -195,28 +163,16 @@ class Queen(Piece):
 
     def get_available_moves(self, board):
         current_square = board.find_piece(self)
+        current_piece = board.get_piece(current_square)
 
         move_vectors = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [-1, -1], [1, -1]]
 
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = self.get_moves(board, current_square, valid_moves, move_vectors[vector][0],
-                                         move_vectors[vector][1])
+            valid_moves = board.check_moves_multi(board, current_square, current_piece, valid_moves,
+                                                  move_vectors[vector][0], move_vectors[vector][1])
 
-        return valid_moves
-
-    def get_moves(self, board, current_square, valid_moves, row_direction, col_direction):
-        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
-        while board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
-                break
-            next_square = Square.at(next_square.row + row_direction, next_square.col + col_direction)
         return valid_moves
 
 
@@ -227,25 +183,14 @@ class King(Piece):
 
     def get_available_moves(self, board):
         current_square = board.find_piece(self)
+        current_piece = board.get_piece(current_square)
 
         valid_moves = []
 
         move_vectors = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [-1, -1], [1, -1]]
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = self.get_moves(board, current_square, valid_moves, move_vectors[vector][0],
-                                         move_vectors[vector][1])
+            valid_moves = board.check_moves(board, current_square, current_piece, valid_moves,
+                                            move_vectors[vector][0], move_vectors[vector][1])
 
-        return valid_moves
-
-    def get_moves(self, board, current_square, valid_moves, row_direction, col_direction):
-
-        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
-        if board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
         return valid_moves
