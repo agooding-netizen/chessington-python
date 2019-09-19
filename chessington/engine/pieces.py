@@ -176,20 +176,18 @@ class Rook(Piece):
 
         current_square = board.find_piece(self)
 
+        move_vectors = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+
         valid_moves = []
 
-        valid_moves = self.get_moves_up(board, current_square, valid_moves)
-
-        valid_moves = self.get_moves_down(board, current_square, valid_moves)
-
-        valid_moves = self.get_moves_left(board, current_square, valid_moves)
-
-        valid_moves = self.get_moves_right(board, current_square, valid_moves)
+        for vector in range(0, len(move_vectors)):
+            valid_moves = self.get_moves(board, current_square, valid_moves, move_vectors[vector][0],
+                                         move_vectors[vector][1])
 
         return valid_moves
 
-    def get_moves_up(self, board, current_square, valid_moves):
-        next_square = Square.at(current_square.row + 1, current_square.col)
+    def get_moves(self, board, current_square, valid_moves, row_direction, col_direction):
+        next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
         while board.does_square_exist(next_square):
             if board.is_square_empty(next_square):
                 valid_moves.append(next_square)
@@ -198,47 +196,7 @@ class Rook(Piece):
                 if piece.player != self.player:
                     valid_moves.append(next_square)
                 break
-            next_square = Square.at(next_square.row + 1, next_square.col)
-        return valid_moves
-
-    def get_moves_down(self, board, current_square, valid_moves):
-        next_square = Square.at(current_square.row - 1, current_square.col)
-        while board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
-                break
-            next_square = Square.at(next_square.row - 1, next_square.col)
-        return valid_moves
-
-    def get_moves_left(self, board, current_square, valid_moves):
-        next_square = Square.at(current_square.row, current_square.col - 1)
-        while board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
-                break
-            next_square = Square.at(next_square.row, next_square.col - 1)
-
-        return valid_moves
-
-    def get_moves_right(self, board, current_square, valid_moves):
-        next_square = Square.at(current_square.row, current_square.col + 1)
-        while board.does_square_exist(next_square):
-            if board.is_square_empty(next_square):
-                valid_moves.append(next_square)
-            elif not board.is_square_empty(next_square):
-                piece = board.get_piece(next_square)
-                if piece.player != self.player:
-                    valid_moves.append(next_square)
-                break
-            next_square = Square.at(next_square.row, next_square.col + 1)
+            next_square = Square.at(next_square.row + row_direction, next_square.col + col_direction)
         return valid_moves
 
 
