@@ -62,6 +62,9 @@ class Pawn(Piece):
                 valid_moves = self.prawn_capture(board, current_square, valid_moves, move_vectors[vector][0],
                                                  move_vectors[vector][1])
 
+        if board.en_passant_state:
+            valid_moves = self.en_passant(board, valid_moves, current_square)
+
         return valid_moves
 
     @staticmethod
@@ -92,7 +95,17 @@ class Pawn(Piece):
         queen = Queen(self.player)
         board.set_piece(square, queen)
 
-    #def en_passant(self, start_row):
+    @staticmethod
+    def en_passant(board, valid_moves, current_square):
+        victim_square = board.en_passant_state
+        if victim_square.row == current_square.row:
+            if victim_square.col == current_square.col + 1:
+                next_square = Square.at(current_square.row, current_square.col + 1)
+                valid_moves.append(next_square)
+            if victim_square.col == current_square.col - 1:
+                next_square = Square.at(current_square.row, current_square.col - 1)
+                valid_moves.append(next_square)
+        return valid_moves
 
 
 class Knight(Piece):
