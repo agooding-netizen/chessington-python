@@ -1044,3 +1044,186 @@ class TestQueens:
         # Assert
         assert Square.at(4, 6) in moves
         assert Square.at(4, 3) in moves
+
+
+class TestKings:
+
+    @staticmethod
+    def test_kings_cannot_move_off_the_board():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(0, 0)
+        board.set_piece(king_square, king)
+
+        friendly_1 = Pawn(Player.WHITE)
+        friendly_1_square = Square.at(1, 0)
+        board.set_piece(friendly_1_square, friendly_1)
+
+        friendly_2 = Pawn(Player.WHITE)
+        friendly_2_square = Square.at(0, 1)
+        board.set_piece(friendly_2_square, friendly_2)
+
+        friendly_3 = Pawn(Player.WHITE)
+        friendly_3_square = Square.at(1,1)
+        board.set_piece(friendly_3_square, friendly_3)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert len(moves) == 0
+
+    @staticmethod
+    def test_kings_can_capture():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        enemy_1 = Pawn(Player.BLACK)
+        enemy_1_square = Square.at(4, 3)
+        board.set_piece(enemy_1_square, enemy_1)
+
+        enemy_2 = Pawn(Player.BLACK)
+        enemy_2_square = Square.at(3, 4)
+        board.set_piece(enemy_2_square, enemy_2)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(4, 3) in moves
+        assert Square.at(3, 4) in moves
+
+
+    @staticmethod
+    def test_kings_cannot_move_to_friendly_square():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        friendly_1 = Pawn(Player.BLACK)
+        friendly_1_square = Square.at(4, 3)
+        board.set_piece(friendly_1_square, friendly_1)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(4, 3) not in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_up():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(5, 4) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_up_and_right():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(5, 5) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_right():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(4, 5) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_down_right():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(3, 5) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_down():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(3, 4) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_down_and_left():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(3, 3) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_left():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(4, 3) in moves
+
+    @staticmethod
+    def test_kings_can_move_one_step_up_and_left():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(4, 4)
+        board.set_piece(king_square, king)
+
+        # Act
+        moves = king.get_available_moves(board)
+
+        # Assert
+        assert Square.at(5, 3) in moves
