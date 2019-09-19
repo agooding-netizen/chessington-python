@@ -92,6 +92,8 @@ class Pawn(Piece):
         queen = Queen(self.player)
         board.set_piece(square, queen)
 
+    #def en_passant(self, start_row):
+
 
 class Knight(Piece):
     """

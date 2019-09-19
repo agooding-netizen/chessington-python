@@ -20,6 +20,7 @@ class Board:
     def __init__(self, player, board_state):
         self.current_player = Player.WHITE
         self.board = board_state
+        self.en_passant_state = None
 
     @staticmethod
     def empty():
@@ -78,12 +79,24 @@ class Board:
         """
         moving_piece = self.get_piece(from_square)
         if moving_piece is not None and moving_piece.player == self.current_player:
-            if (to_square.row == 0 or to_square.row == 7) and isinstance(self.get_piece(from_square), Pawn):
-                Pawn.pawn_promotion(moving_piece, self, to_square)
-            else:
-                self.set_piece(to_square, moving_piece)
+            self.set_piece(to_square, moving_piece)
+            self.promotion_check(to_square, from_square, moving_piece)
             self.set_piece(from_square, None)
+            self.set_en_passant_state(to_square, from_square, moving_piece)
             self.current_player = self.current_player.opponent()
+
+    def set_en_passant_state(self, to_square, from_square, moving_piece):
+        if not isinstance(moving_piece, Pawn):
+            self.en_passant_state = None
+            return
+        if abs(to_square.row - from_square.row) > 1:
+            self.en_passant_state = to_square
+            return
+        self.en_passant_state = None
+
+    def promotion_check(self, to_square, from_square, moving_piece):
+        if (to_square.row == 0 or to_square.row == 7) and isinstance(self.get_piece(from_square), Pawn):
+            Pawn.pawn_promotion(moving_piece, self, to_square)
 
     def is_square_empty(self, square):
         if self.get_piece(square) is None:

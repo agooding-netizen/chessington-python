@@ -333,6 +333,37 @@ class TestPawns:
         assert Square.at(2, 3) not in moves
         assert Square.at(2, 5) not in moves
 
+    @staticmethod
+    def test_white_pawns_reaching_end_row_become_queens():
+        # Arrange
+        board = Board.empty()
+        pawn = Pawn(Player.WHITE)
+        pawn_square = Square.at(6, 0)
+        board.set_piece(pawn_square, pawn)
+        target_square = Square.at(7, 0)
+
+        # Act
+        board.move_piece(pawn_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Queen) is True
+
+    @staticmethod
+    def test_black_pawns_reaching_end_row_become_queens():
+        # Arrange
+        board = Board.empty()
+        pawn = Pawn(Player.BLACK)
+        pawn_square = Square.at(1, 0)
+        board.set_piece(pawn_square, pawn)
+        target_square = Square.at(0, 0)
+
+        # Act
+        board.current_player = board.current_player.opponent()
+        board.move_piece(pawn_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Queen) is True
+
 
 class TestRooks:
 
