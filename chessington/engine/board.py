@@ -78,7 +78,7 @@ class Board:
         """
         moving_piece = self.get_piece(from_square)
         if moving_piece is not None and moving_piece.player == self.current_player:
-            if to_square.row == 0 or to_square.row == 7:
+            if (to_square.row == 0 or to_square.row == 7) and isinstance(self.get_piece(from_square), Pawn):
                 Pawn.pawn_promotion(moving_piece, self, to_square)
             else:
                 self.set_piece(to_square, moving_piece)

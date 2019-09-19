@@ -573,9 +573,9 @@ class TestRooks:
         # Arrange
         board = Board.empty()
         rook = Rook(Player.WHITE)
-        rook_square = Square.at(1,0)
+        rook_square = Square.at(1, 0)
         board.set_piece(rook_square, rook)
-        target_square = Square.at(0,0)
+        target_square = Square.at(0, 0)
 
         # Act
         board.move_piece(rook_square, target_square)
@@ -593,6 +593,7 @@ class TestRooks:
         target_square = Square.at(7, 0)
 
         # Act
+        board.current_player = board.current_player.opponent()
         board.move_piece(rook_square, target_square)
 
         # Assert
@@ -849,6 +850,7 @@ class TestBishops:
         target_square = Square.at(7, 1)
 
         # Act
+        board.current_player = board.current_player.opponent()
         board.move_piece(bishop_square, target_square)
 
         # Assert
@@ -1052,6 +1054,7 @@ class TestKnights:
         target_square = Square.at(7, 0)
 
         # Act
+        board.current_player = board.current_player.opponent()
         board.move_piece(knight_square, target_square)
 
         # Assert
@@ -1502,6 +1505,7 @@ class TestKings:
         target_square = Square.at(7, 0)
 
         # Act
+        board.current_player = board.current_player.opponent()
         board.move_piece(king_square, target_square)
 
         # Assert
