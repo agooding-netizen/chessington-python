@@ -568,6 +568,36 @@ class TestRooks:
         # Assert
         assert Square.at(4, 6) in moves
 
+    @staticmethod
+    def test_white_rooks_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        rook = Rook(Player.WHITE)
+        rook_square = Square.at(1,0)
+        board.set_piece(rook_square, rook)
+        target_square = Square.at(0,0)
+
+        # Act
+        board.move_piece(rook_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Rook) is True
+
+    @staticmethod
+    def test_black_rooks_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        rook = Rook(Player.BLACK)
+        rook_square = Square.at(6, 0)
+        board.set_piece(rook_square, rook)
+        target_square = Square.at(7, 0)
+
+        # Act
+        board.move_piece(rook_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Rook) is True
+
 
 class TestBishops:
 
@@ -794,6 +824,36 @@ class TestBishops:
         # Assert
         assert Square.at(2, 2) in moves
 
+    @staticmethod
+    def test_white_bishops_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        bishop = Bishop(Player.WHITE)
+        bishop_square = Square.at(1, 0)
+        board.set_piece(bishop_square, bishop)
+        target_square = Square.at(0, 1)
+
+        # Act
+        board.move_piece(bishop_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Bishop) is True
+
+    @staticmethod
+    def test_black_bishops_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        bishop = Bishop(Player.BLACK)
+        bishop_square = Square.at(6, 0)
+        board.set_piece(bishop_square, bishop)
+        target_square = Square.at(7, 1)
+
+        # Act
+        board.move_piece(bishop_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Bishop) is True
+
 
 class TestKnights:
 
@@ -966,6 +1026,36 @@ class TestKnights:
 
         # Assert
         assert len(moves) == 0
+
+    @staticmethod
+    def test_white_knights_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        knight = Knight(Player.WHITE)
+        knight_square = Square.at(1, 2)
+        board.set_piece(knight_square, knight)
+        target_square = Square.at(0, 0)
+
+        # Act
+        board.move_piece(knight_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Knight) is True
+
+    @staticmethod
+    def test_black_knights_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        knight = Knight(Player.BLACK)
+        knight_square = Square.at(6, 2)
+        board.set_piece(knight_square, knight)
+        target_square = Square.at(7, 0)
+
+        # Act
+        board.move_piece(knight_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), Knight) is True
 
 
 class TestQueens:
@@ -1386,3 +1476,33 @@ class TestKings:
 
         # Assert
         assert Square.at(5, 3) in moves
+
+    @staticmethod
+    def test_white_kings_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.WHITE)
+        king_square = Square.at(1, 0)
+        board.set_piece(king_square, king)
+        target_square = Square.at(0, 0)
+
+        # Act
+        board.move_piece(king_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), King) is True
+
+    @staticmethod
+    def test_black_kings_moving_to_home_row_do_not_become_queens():
+        # Arrange
+        board = Board.empty()
+        king = King(Player.BLACK)
+        king_square = Square.at(6, 0)
+        board.set_piece(king_square, king)
+        target_square = Square.at(7, 0)
+
+        # Act
+        board.move_piece(king_square, target_square)
+
+        # Assert
+        assert isinstance(board.get_piece(target_square), King) is True

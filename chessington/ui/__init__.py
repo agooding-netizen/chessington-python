@@ -5,17 +5,24 @@ A GUI chess board that can be interacted with, and pieces moved around on.
 import os
 
 import PySimpleGUI as psg
-
+import random
 from chessington.engine.board import Board, BOARD_SIZE
 from chessington.engine.data import Player, Square
 from chessington.engine.pieces import Pawn, Knight, Bishop, Rook, Queen, King
 
 IMAGES_BASE_DIRECTORY = 'images'
 
-BLACK_SQUARE_COLOUR = '#B58863'
-WHITE_SQUARE_COLOUR = '#F0D9B5'
-FROM_SQUARE_COLOUR = '#33A1FF'
-TO_SQUARE_COLOUR = '#B633FF'
+BLACK_SQUARE_COLOUR = '#858585'
+WHITE_SQUARE_COLOUR = '#e1e1f7'
+FROM_SQUARE_COLOUR = '#916e6e'
+TO_SQUARE_COLOUR = '#58579c'
+
+def random_hex():
+    allowed_chars = "ABCDEF0123456789"
+    string = '#'
+    for i in range(0, 6):
+        string += random.choice(allowed_chars)
+    return string
 
 def get_image_name_from_piece(piece):
     if piece is None:
