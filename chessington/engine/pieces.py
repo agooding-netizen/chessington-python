@@ -63,7 +63,7 @@ class Pawn(Piece):
                                                  move_vectors[vector][1])
 
         if board.en_passant_state:
-            valid_moves = self.en_passant(board, valid_moves, current_square)
+            valid_moves = self.en_passant(board, valid_moves, current_square, row_direction)
 
         return valid_moves
 
@@ -96,14 +96,14 @@ class Pawn(Piece):
         board.set_piece(square, queen)
 
     @staticmethod
-    def en_passant(board, valid_moves, current_square):
+    def en_passant(board, valid_moves, current_square, row_direction):
         victim_square = board.en_passant_state
         if victim_square.row == current_square.row:
             if victim_square.col == current_square.col + 1:
-                next_square = Square.at(current_square.row, current_square.col + 1)
+                next_square = Square.at(current_square.row + row_direction, current_square.col + 1)
                 valid_moves.append(next_square)
             if victim_square.col == current_square.col - 1:
-                next_square = Square.at(current_square.row, current_square.col - 1)
+                next_square = Square.at(current_square.row + row_direction, current_square.col - 1)
                 valid_moves.append(next_square)
         return valid_moves
 

@@ -81,6 +81,7 @@ class Board:
         if moving_piece is not None and moving_piece.player == self.current_player:
             self.set_piece(to_square, moving_piece)
             self.promotion_check(to_square, from_square, moving_piece)
+            self.check_for_en_passant(to_square, from_square, moving_piece)
             self.set_piece(from_square, None)
             self.set_en_passant_state(to_square, from_square, moving_piece)
             self.current_player = self.current_player.opponent()
@@ -93,6 +94,11 @@ class Board:
             self.en_passant_state = to_square
             return
         self.en_passant_state = None
+
+    def check_for_en_passant(self, to_square, from_square, moving_piece):
+        if isinstance(moving_piece, Pawn) and self.is_square_empty(to_square) and (to_square.col != from_square.col):
+            victim_square = Square.at(from_square.row, to_square.col)
+            self.set_piece(victim_square, None)
 
     def promotion_check(self, to_square, from_square, moving_piece):
         if (to_square.row == 0 or to_square.row == 7) and isinstance(self.get_piece(from_square), Pawn):
