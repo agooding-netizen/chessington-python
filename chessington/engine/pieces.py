@@ -123,7 +123,7 @@ class Knight(Piece):
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = board.check_moves(board, current_square, current_piece, valid_moves,
+            valid_moves = board.check_moves(current_square, current_piece, valid_moves,
                                             move_vectors[vector][0], move_vectors[vector][1])
 
         return valid_moves
@@ -144,7 +144,7 @@ class Bishop(Piece):
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = board.check_moves_multi(board, current_square, current_piece, valid_moves,
+            valid_moves = board.check_moves_multi(current_square, current_piece, valid_moves,
                                                   move_vectors[vector][0], move_vectors[vector][1])
 
         return valid_moves
@@ -165,7 +165,7 @@ class Rook(Piece):
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = board.check_moves_multi(board, current_square, current_piece, valid_moves,
+            valid_moves = board.check_moves_multi(current_square, current_piece, valid_moves,
                                                   move_vectors[vector][0], move_vectors[vector][1])
 
         return valid_moves
@@ -185,7 +185,7 @@ class Queen(Piece):
         valid_moves = []
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = board.check_moves_multi(board, current_square, current_piece, valid_moves,
+            valid_moves = board.check_moves_multi(current_square, current_piece, valid_moves,
                                                   move_vectors[vector][0], move_vectors[vector][1])
 
         return valid_moves
@@ -205,7 +205,7 @@ class King(Piece):
         move_vectors = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [-1, -1], [1, -1]]
 
         for vector in range(0, len(move_vectors)):
-            valid_moves = board.check_moves(board, current_square, current_piece, valid_moves,
+            valid_moves = board.check_moves(current_square, current_piece, valid_moves,
                                             move_vectors[vector][0], move_vectors[vector][1])
 
         return valid_moves

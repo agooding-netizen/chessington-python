@@ -81,7 +81,7 @@ class Board:
         if moving_piece is not None and moving_piece.player == self.current_player:
             self.set_piece(to_square, moving_piece)
             self.promotion_check(to_square, from_square, moving_piece)
-            self.check_for_en_passant(to_square, from_square, moving_piece)
+            self.execute_en_passant(to_square, from_square, moving_piece)
             self.set_piece(from_square, None)
             self.set_en_passant_state(to_square, from_square, moving_piece)
             self.current_player = self.current_player.opponent()
@@ -95,10 +95,11 @@ class Board:
             return
         self.en_passant_state = None
 
-    def check_for_en_passant(self, to_square, from_square, moving_piece):
-        if isinstance(moving_piece, Pawn) and self.is_square_empty(to_square) and (to_square.col != from_square.col):
-            victim_square = Square.at(from_square.row, to_square.col)
-            self.set_piece(victim_square, None)
+    def execute_en_passant(self, to_square, from_square, moving_piece):
+        if self.en_passant_state is None:
+            return
+        if isinstance(moving_piece, Pawn) and to_square.col == self.en_passant_state.col:
+            self.set_piece(self.en_passant_state, None)
 
     def promotion_check(self, to_square, from_square, moving_piece):
         if (to_square.row == 0 or to_square.row == 7) and isinstance(self.get_piece(from_square), Pawn):
@@ -117,7 +118,7 @@ class Board:
         else:
             return False
 
-    def check_moves(self, board, current_square, current_piece, valid_moves, row_direction, col_direction):
+    def check_moves(self, current_square, current_piece, valid_moves, row_direction, col_direction):
         next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
         if self.does_square_exist(next_square):
             if self.is_square_empty(next_square):
@@ -127,7 +128,7 @@ class Board:
                 valid_moves = self.check_for_capture(current_piece, piece, valid_moves, next_square)
         return valid_moves
 
-    def check_moves_multi(self, board, current_square, current_piece, valid_moves, row_direction, col_direction):
+    def check_moves_multi(self, current_square, current_piece, valid_moves, row_direction, col_direction):
         next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
         while self.does_square_exist(next_square):
             if self.is_square_empty(next_square):
@@ -139,8 +140,25 @@ class Board:
             next_square = Square.at(next_square.row + row_direction, next_square.col + col_direction)
         return valid_moves
 
-    @staticmethod
-    def check_for_capture(current_piece, check_piece, valid_moves, square):
+    def check_for_capture(self, current_piece, check_piece, valid_moves, square):
         if check_piece.player != current_piece.player:
             valid_moves.append(square)
+            self.get_move_points(square)
         return valid_moves
+
+    def get_move_points(self, target_square):
+        piece = self.get_piece(target_square)
+        piece_name = type(piece).__name__
+        points_dict = {
+            "Pawn": 1,
+            "Bishop": 3,
+            "Knight": 3,
+            "Rook": 5,
+            "Queen": 9,
+            "King": 15
+        }
+        points = points_dict[piece_name]
+        print(piece_name)
+        print(points)
+        return points
+
