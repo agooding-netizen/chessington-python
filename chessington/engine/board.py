@@ -98,7 +98,9 @@ class Board:
     def execute_en_passant(self, to_square, from_square, moving_piece):
         if self.en_passant_state is None:
             return
-        if isinstance(moving_piece, Pawn) and to_square.col == self.en_passant_state.col:
+        target_row = 2 if self.en_passant_state.row == 3 else 5
+        if isinstance(moving_piece, Pawn) and to_square.col == self.en_passant_state.col and \
+                target_row == self.en_passant_state.row:
             self.set_piece(self.en_passant_state, None)
 
     def promotion_check(self, to_square, from_square, moving_piece):

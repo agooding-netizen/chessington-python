@@ -86,9 +86,8 @@ class Pawn(Piece):
     def prawn_capture(self, board, current_square, valid_moves, row_direction, col_direction):
         next_square = Square.at(current_square.row + row_direction, current_square.col + col_direction)
         if board.does_square_exist(next_square) and not board.is_square_empty(next_square):
-            piece = board.get_piece(next_square)
-            if piece.player != self.player:
-                valid_moves.append(next_square)
+            check_piece = board.get_piece(next_square)
+            board.check_for_capture(self, check_piece, valid_moves, next_square)
         return valid_moves
 
     def pawn_promotion(self, board, square):
