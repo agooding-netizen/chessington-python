@@ -100,7 +100,7 @@ class Board:
             return
         target_row = 2 if self.en_passant_state.row == 3 else 5
         if isinstance(moving_piece, Pawn) and to_square.col == self.en_passant_state.col and \
-                target_row == self.en_passant_state.row:
+                target_row == to_square.row:
             self.set_piece(self.en_passant_state, None)
 
     def promotion_check(self, to_square, from_square, moving_piece):

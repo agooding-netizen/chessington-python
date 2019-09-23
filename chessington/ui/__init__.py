@@ -17,12 +17,14 @@ WHITE_SQUARE_COLOUR = '#e1e1f7'
 FROM_SQUARE_COLOUR = '#916e6e'
 TO_SQUARE_COLOUR = '#58579c'
 
+
 def random_hex():
     allowed_chars = "ABCDEF0123456789"
     string = '#'
     for i in range(0, 6):
         string += random.choice(allowed_chars)
     return string
+
 
 def get_image_name_from_piece(piece):
     if piece is None:
@@ -32,11 +34,14 @@ def get_image_name_from_piece(piece):
     image_name = class_to_piece_name[piece.__class__] + player_to_colour_suffix[piece.player] + '.png'
     return os.path.join(IMAGES_BASE_DIRECTORY, image_name)
 
+
 def get_key_from_square(square):
     return (square.row, square.col)
 
+
 def get_square_colour(square):
     return BLACK_SQUARE_COLOUR if square.row % 2 == square.col % 2 else WHITE_SQUARE_COLOUR
+
 
 def render_square(board, square):
     piece = board.get_piece(square)
@@ -45,8 +50,10 @@ def render_square(board, square):
     key = get_key_from_square(square)
     return psg.Button('', image_filename=image_file, size=(1, 1), button_color=('white', square_colour), pad=(0, 0), key=key)
 
+
 def render_board(board):
     return [[render_square(board, Square.at(row, col)) for col in range(BOARD_SIZE)] for row in range(BOARD_SIZE - 1, -1, -1)]
+
 
 def update_pieces(window, board):
     for row in range(BOARD_SIZE):
@@ -55,9 +62,11 @@ def update_pieces(window, board):
             element = window.FindElement(key=(row, col))
             element.Update(image_filename=image_file)
 
+
 def set_square_colour(window, square, colour):
     element = window.FindElement(key=(square.row, square.col))
     element.Update(button_color=('white', colour))
+
 
 def reset_square_colours(window):
     for row in range(BOARD_SIZE):
@@ -66,12 +75,14 @@ def reset_square_colours(window):
             element = window.FindElement(key=(row, col))
             element.Update(button_color=('white', colour))
 
+
 def highlight_squares(window, from_square, to_squares):
     reset_square_colours(window)
     if from_square is not None:
         set_square_colour(window, from_square, FROM_SQUARE_COLOUR)
     for square in to_squares:
         set_square_colour(window, square, TO_SQUARE_COLOUR)
+
 
 def play_game():
     psg.ChangeLookAndFeel('GreenTan')
